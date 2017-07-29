@@ -5,21 +5,23 @@ var logger = require('log4js').getLogger('PDU');
 
 var supportedTypes = ['string', 'uint', 'int', 'float', 'double', 'bytes'];
 
-// format
-// {
-//   endian: 'little'(default) | 'big',
-//   length: <field name: string> | <data length: int>,
-//   fields: [
-//     {
-//       name: <field name: string>,
-//       type: 'string' | 'uint' | 'int' | 'float' | 'double' | 'bytes',
-//       length: <data length: int>
-//     },
-//     {
-//       ...
-//     }
-//   ]
-// }
+/**
+ * format
+ * {
+ *   endian: 'little'(default) | 'big',
+ *   length: <field name which has length: string> | <data length: int>,
+ *   fields: [
+ *     {
+ *       name: <field name: string>,
+ *       type: 'string' | 'uint' | 'int' | 'float' | 'double' | 'bytes',
+ *       length: <data length: int>
+ *     },
+ *     {
+ *       ...
+ *     }
+ *   ]
+ * }
+ */
 
 function PDU(format, data) {
   this.format = format;
