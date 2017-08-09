@@ -1,7 +1,11 @@
 'use strict';
 
 var _ = require('lodash');
+var ajv = new require('ajv')({ useDefaults: true });
 var logger = require('log4js').getLogger('PDU');
+
+//var schema = require('./schema.json');
+var schema = require('./test/test-schema.json');
 
 var supportedTypes = ['string', 'uint', 'int', 'float', 'double', 'bytes'];
 
@@ -9,12 +13,16 @@ var supportedTypes = ['string', 'uint', 'int', 'float', 'double', 'bytes'];
  * format
  * {
  *   endian: 'little'(default) | 'big',
- *   length: <field name which has length: string> | <data length: int>,
+ *   row: {
+ *     length: <field name which has the length:> string | <fixed data length:> int,
+ *     delimiter: string,
+ *   },
  *   fields: [
  *     {
- *       name: <field name: string>,
+ *       name: <field name:> string,
  *       type: 'string' | 'uint' | 'int' | 'float' | 'double' | 'bytes',
- *       length: <data length: int>
+ *       length: <data length: int>,
+ *       delimiter: string
  *     },
  *     {
  *       ...
@@ -26,14 +34,28 @@ var supportedTypes = ['string', 'uint', 'int', 'float', 'double', 'bytes'];
 function PDU(format, data) {
   this.format = format;
 
-  if (Buffer.isBuffer(data)) {
-    this.buffer = this.parse(data);
-  } else if (_.isObject(data)) {
-    this.data = this.serialize(data);
-  } else {
-    throw new Error('The argument should be a Buffer or an Object.');
+  if (!this.validateFormat()) {
+    throw new Error('Bad format');
+  }
+
+  if (!_.isUndefined(data)) {
+    if (Buffer.isBuffer(data)) {
+      this.buffer = this.parse(data);
+    } else if (_.isObject(data)) {
+      this.data = this.serialize(data);
+    } else {
+      throw new Error('The 2nd argument should be a Buffer or an Object.');
+    }
   }
 }
+
+PDU.prototype.validateFormat = function (format) {
+  if (this.format) {
+    format = this.format;
+  }
+
+  return ajv.validate(schema, format);
+};
 
 PDU.prototype.parse = function (buffer) {
   var self = this;
@@ -75,8 +97,8 @@ PDU.prototype.parse = function (buffer) {
       case 'float':
       case 'double':
         cond = field.type + field.length + endian;
-        switch (cond) {
-          case 'int
+//         switch (cond) {
+//           case 'int
         break;
       default:
         logger.warn('Unsupported field type:', field.type);

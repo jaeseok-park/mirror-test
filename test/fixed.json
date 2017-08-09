@@ -1,0 +1,17 @@
+{
+  "row": {
+    "length": 5
+  },
+  "fields": [
+    {
+      "name": "code",
+      "type": "string",
+      "length": "1"
+    },
+    {
+      "name": "value",
+      "type": "int",
+      "length": "4"
+    }
+  ]
+}

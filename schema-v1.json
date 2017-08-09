@@ -1,0 +1,55 @@
+{
+  "type": "object",
+  "properties": {
+    "endian": {
+      "type": "string",
+      "enum": ["little", "big"],
+      "default": "little"
+    },
+    "row": {
+      "type": "object",
+      "properties": {
+        "oneOf": [
+          {
+            "length": {
+              "type": ["string", "integer"]
+            }
+          },
+          {
+            "delimiter": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
+    "fields": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": "string",
+            "type": {
+              "type": "string",
+              "enum": ["string", "uint", "int", "float", "double", "bytes"]
+            },
+            "oneOf": [
+              {
+                "length": "integer"
+              },
+              {
+                "delimiter": "string"
+              }
+            ]
+          },
+          "additionalProperties": false,
+          "required": ["name", "type"]
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": ["fields"]
+}

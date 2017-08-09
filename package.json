@@ -4,12 +4,21 @@
   "description": "General PDU util package",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaeseok-park/pdu"
   },
   "author": "jaeseok.park@daliworks.net",
   "license": "MIT",
   "dependencies": {
+    "ajv": "^5.2.2",
     "lodash": "^4.17.4",
     "log4js": "^0.6.38"
+  },
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "mocha": "^3.5.0"
   }
 }

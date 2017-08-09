@@ -1,0 +1,16 @@
+{
+  "row": {
+    "delimiter": "#"
+  },
+  "fields": [
+    {
+      "name": "code",
+      "type": "string",
+      "delimiter": ":"
+    },
+    {
+      "name": "value",
+      "type": "int"
+    }
+  ]
+}
